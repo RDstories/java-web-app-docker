@@ -1,4 +1,4 @@
-node{
+/*node{
      
     stage('SCM Checkout'){
         git url: 'https://github.com/MithunTechnologiesDevOps/java-web-app-docker.git',branch: 'master'
@@ -37,4 +37,32 @@ node{
     }
      
      
+}
+*/
+pipeline{
+agent any
+	stages{
+		stage('Compile Stage') {
+		steps { 
+			withMaven(maven : 'mvn3.8.4'){
+				sh 'mvn clean compile'
+			}
+			}
+		}
+
+		stage('Testing Stage') {
+		steps { 
+			withMaven(maven : 'mvn3.8.4'){
+				sh 'mvn test'
+			}
+			}
+		}
+		stage('deploy stage') {
+		steps { 
+			withMaven(maven : 'mvn3.8.4'){
+				sh 'mvn deploy'
+			}
+			}
+		}
+	}
 }
